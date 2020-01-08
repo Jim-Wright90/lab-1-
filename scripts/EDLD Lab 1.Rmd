@@ -27,3 +27,8 @@ tweets <- import(here("data", "rstats_tweets.rds"),
 head(tweets)
 
 ```
+
+```{r commit 4}
+a <- tweets %>%
+mutate(month = lubridate::round_date(created_at))
+```
