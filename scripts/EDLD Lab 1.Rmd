@@ -28,7 +28,15 @@ head(tweets)
 
 ```
 
-```{r commit 4}
-a <- tweets %>%
-mutate(month = lubridate::round_date(created_at))
+```{r commit2}
+#install.packages("forcats")
+library(forcats)
+
+commit2_filter <- tweets %>% count(screen_name) %>% arrange(desc(n)) %>% slice(1:25) %>% mutate(screen_name = fct_reorder(screen_name, n))
+
+commit2_graph <- ggplot(data=commit2_filter, aes(x=screen_name, y=n)) +
+ geom_bar(stat="identity") +
+  coord_flip() + theme_gray()
 ```
+
+
