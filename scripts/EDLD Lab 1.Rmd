@@ -1,42 +1,22 @@
----
-title: "EDLD 610 Lab 1"
-author: "Jim Wright; Claire Zhang; Sophie Pychlau; Mike"
-date: "1/8/2020"
-output: html_document
-toc: true
-toc_float: true
-theme: united 
-highlight: zenburn 
----
 
-```{r setup, include=FALSE}
-library(rio)
-library(here)
-library(tidyverse)
-library(knitr)
-theme_set(theme_minimal())
-opts_chunk$set(echo = FALSE,
-               fig.width = 6.5,
-               fig.height = 8)
-```
 
-```{r load-data, include=FALSE}
-tweets <- import(here("data", "rstats_tweets.rds"),
-               setclass = "tbl_df") 
+```{r commit 3}
 
-head(tweets)
+test <- tweets %>% 
+  count(screen_name) %>%
+  arrange(desc(n)) %>%
+  slice(1:25) %>%
+  mutate(screen_name = fct_reorder(screen_name, n))
+
+
+ggplot(data = test, aes(x = screen_name, y = n)) +
+            geom_bar(stat="identity", width = 0.7, fill = "cornflowerblue") +
+            labs(y = "Count", x = "Twitter Screen Name", title = "Most prolific #rstats tweeters", subtitle = "Top 25 screen names displayed",
+                 caption = "Data from Mike Kearny, distributed via#tidytuesday") +
+            coord_flip()+ 
+            theme(panel.grid.major.x = element_line(colour = "grey",size=0.5),
+            panel.grid.major.y = element_blank())+
+              scale_y_continuous(minor_breaks = seq(1, 30000, 10000))  
+            )
 
 ```
-
-```{r commit2}
-#install.packages("forcats")
-library(forcats)
-
-commit2_filter <- tweets %>% count(screen_name) %>% arrange(desc(n)) %>% slice(1:25) %>% mutate(screen_name = fct_reorder(screen_name, n))
-
-commit2_graph <- ggplot(data=commit2_filter, aes(x=screen_name, y=n)) +
- geom_bar(stat="identity") +
-  coord_flip() + theme_gray()
-```
-
-
