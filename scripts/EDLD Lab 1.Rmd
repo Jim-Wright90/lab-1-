@@ -65,8 +65,20 @@ mutate(month = lubridate::round_date(created_at, unit = "month")) %>%
 ggplot(a, aes(month, n)) +
   geom_line() +
   geom_smooth()
+
 ```
 
 
 # Commit 5
+```{r}
+ggplot(a, aes(month, n)) +
+  geom_line() +
+  geom_smooth(color = "pink") +
+  geom_area(fill = "skyblue")+
+  labs(x = "Year (data summarized by month)", 
+       y = "Number of #rstats twitters",
+       title = "Growth of the #rstats hashtag on twitter over time",
+       caption = "Data from Mike Keamy, distributed via #tidytuesday")
+```
+
 >>>>>>> Stashed changes
