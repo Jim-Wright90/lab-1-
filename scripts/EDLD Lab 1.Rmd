@@ -79,6 +79,16 @@ ggplot(a, aes(month, n)) +
        y = "Number of #rstats twitters",
        title = "Growth of the #rstats hashtag on twitter over time",
        caption = "Data from Mike Keamy, distributed via #tidytuesday")
+
+
+ggplot(a, aes(month, n)) +
+  geom_line(color = "gray40") +
+  geom_smooth(color = "magenta", se = FALSE) +
+  geom_area(fill = "skyblue", alpha = 0.7) +
+  labs(x = "Year (data summarized by month)", 
+       y = "Number of #rstats twitters",
+       title = "Growth of the #rstats hashtag on twitter over time",
+       caption = "Data from Mike Keamy, distributed via #tidytuesday")
 ```
 
 >>>>>>> Stashed changes
