@@ -1,38 +1,3 @@
-<<<<<<< Updated upstream
-
-```{r commit 2}
-install.packages("dplyr")
-library(dplyr)
-install.packages("forcats")
-library(forcats)
-library(ggplot2)
-
-test <- tweets %>% 
-  count(screen_name) %>%
-  arrange(desc(n)) %>%
-  slice(1:25) %>%
-  mutate(screen_name = fct_reorder(screen_name, n))
-
-ggplot(data = test, aes(x = screen_name, y = n)) +
-            geom_bar(stat="identity") +
-            coord_flip()
-
-```
-
-```{r commit 3}
-
-ggplot(data = test, aes(x = screen_name, y = n)) +
-            geom_bar(stat="identity", width = 0.7, fill = "cornflowerblue") +
-            labs(y = "Count", x = "Twitter Screen Name", title = "Most prolific #rstats tweeters", subtitle = "Top 25 screen names displayed",
-                 caption = "Data from Mike Kearny, distributed via#tidytuesday") +
-            coord_flip()+ 
-            theme(panel.grid.major.x = element_line(colour = "grey",size=0.5),
-            panel.grid.major.y = element_blank())+
-              scale_y_continuous(minor_breaks = seq(1, 30000, 10000))  
-            )
-
-```
-=======
 ---
 title: "EDLD 610 Lab 1"
 author: "Jim Wright; Claire Zhang; Sophie Pychlau; Mike"
@@ -57,10 +22,46 @@ opts_chunk$set(echo = FALSE,
 
 ```{r load-data, include=FALSE}
 tweets <- import(here("data", "rstats_tweets.rds"),
-               setclass = "tbl_df") 
+                 setclass = "tbl_df") 
 
 head(tweets)
+```
 
+```{r commit 2}
+# install.packages("dplyr") # These should not be here. If you really want them, 
+# at least comment them out so the packages are not installed each time the 
+# file is knit.
+library(dplyr)
+#install.packages("forcats")
+library(forcats)
+library(ggplot2)
+
+test <- tweets %>% 
+  count(screen_name) %>%
+  arrange(desc(n)) %>%
+  slice(1:25) %>%
+  mutate(screen_name = fct_reorder(screen_name, n))
+
+ggplot(data = test, aes(x = screen_name, y = n)) +
+       geom_bar(stat="identity") +
+       coord_flip()
+# this is actually supposed to be theme_gray() (the default), but I won't dock
+# you for it.
+```
+
+```{r commit 3}
+# Definitely need some work on code styling. I've fixed the below.
+ggplot(data = test, aes(x = screen_name, y = n)) +
+  geom_bar(stat = "identity", width = 0.7, fill = "cornflowerblue") + # could use geom_col() to avoid stat = "identity"
+  labs(x = "Twitter Screen Name",
+       y = "Count",
+       title = "Most prolific #rstats tweeters", 
+       subtitle = "Top 25 screen names displayed",
+       caption = "Data from Mike Kearny, distributed via #tidytuesday") +
+  coord_flip() + 
+  theme(panel.grid.major.x = element_line(colour = "grey",size=0.5),
+        panel.grid.major.y = element_blank()) +
+  scale_y_continuous(minor_breaks = seq(1, 30000, 10000))  
 
 ```
 
@@ -68,8 +69,8 @@ head(tweets)
 # Commit 4
 ```{r commit 4}
 
-a <- tweets %>%
-mutate(month = lubridate::round_date(created_at, unit = "month")) %>% 
+a <- tweets %>% # Why call this object `a`? Best to give meaningful names. Same could be said of test above.
+  mutate(month = lubridate::round_date(created_at, unit = "month")) %>% 
   count(month) %>% 
   filter(month < lubridate::as_datetime("2019-01-01 00:00:00"))
 
@@ -85,12 +86,13 @@ ggplot(a, aes(month, n)) +
 ggplot(a, aes(month, n)) +
   geom_line() +
   geom_smooth(color = "pink") +
-  geom_area(fill = "skyblue")+
+  geom_area(fill = "skyblue") +
   labs(x = "Year (data summarized by month)", 
        y = "Number of #rstats twitters",
        title = "Growth of the #rstats hashtag on twitter over time",
-       caption = "Data from Mike Keamy, distributed via #tidytuesday")
+       caption = "Data from Mike Kearny, distributed via #tidytuesday")
 
+# These look great, but your smooth and line are under your area.
 
 ggplot(a, aes(month, n)) +
   geom_line(color = "gray40") +
@@ -99,7 +101,5 @@ ggplot(a, aes(month, n)) +
   labs(x = "Year (data summarized by month)", 
        y = "Number of #rstats twitters",
        title = "Growth of the #rstats hashtag on twitter over time",
-       caption = "Data from Mike Keamy, distributed via #tidytuesday")
+       caption = "Data from Mike Kearny, distributed via #tidytuesday")
 ```
-
->>>>>>> Stashed changes
