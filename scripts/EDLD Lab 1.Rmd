@@ -1,7 +1,11 @@
 <<<<<<< Updated upstream
 
-
-```{r commit 3}
+```{r commit 2}
+install.packages("dplyr")
+library(dplyr)
+install.packages("forcats")
+library(forcats)
+library(ggplot2)
 
 test <- tweets %>% 
   count(screen_name) %>%
@@ -9,6 +13,13 @@ test <- tweets %>%
   slice(1:25) %>%
   mutate(screen_name = fct_reorder(screen_name, n))
 
+ggplot(data = test, aes(x = screen_name, y = n)) +
+            geom_bar(stat="identity") +
+            coord_flip()
+
+```
+
+```{r commit 3}
 
 ggplot(data = test, aes(x = screen_name, y = n)) +
             geom_bar(stat="identity", width = 0.7, fill = "cornflowerblue") +
